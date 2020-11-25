@@ -1,0 +1,205 @@
+<!--
+ Copyright 2020 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- Default Edge (if custom one not provided) -->
+<ng-template #defaultEdgeTemplate
+    let-edge
+    let-focused="focused"
+    let-selected="selected"
+    let-highlighting="highlighting"
+    let-highlighted="highlighted"
+    let-successor="successor"
+    let-predecessor="predecessor"
+    >
+  <svg:path class="default-edge-click-region animate"
+      [attr.d]="curvedPath(edge, layout)">
+  </svg:path>
+  <svg:path
+      class="default-edge animate"
+      [class.focused]="focused"
+      [class.selected]="selected"
+      [class.highlighting]="highlighting"
+      [class.highlighted]="highlighted"
+      [class.successor]="successor"
+      [class.predecessor]="predecessor"
+      [attr.d]="curvedPath(edge, layout)"
+      [attr.data-graph-id]="getId(edge)">
+  </svg:path>
+</ng-template>
+
+<!-- Default Node (if custom one not provided) -->
+<ng-template #defaultNodeTemplate
+    let-node
+    let-focused="focused"
+    let-selected="selected"
+    let-highlighting="highlighting"
+    let-highlighted="highlighted"
+    let-successor="successor"
+    let-predecessor="predecessor"
+    >
+  <div class="default-node"
+      [class.draggable]="editable"
+      [class.focused]="focused"
+      [class.selected]="selected"
+      [class.highlighting]="highlighting"
+      [class.highlighted]="highlighted"
+      [class.successor]="successor"
+      [class.predecessor]="predecessor"
+      [attr.data-graph-id]="getId(node)">
+    {{ node.id }}
+  </div>
+</ng-template>
+
+<svg #graphEl class="graph"
+    [class.loading]="loading"
+    [class.panning]="panning"
+    (mouseup)="canvasMouseUp($event)"
+    (mousedown)="canvasMouseDown()"
+    (click)="canvasClick($event)"
+    [attr.tabindex]="editable?  '0' : ''">
+
+  <!-- Root group (required by pan-zoom library) -->
+  <g>
+
+    <!-- Edges -->
+    <g *ngFor="let edge of graph.edges; trackBy: trackByFn"
+        class="edge"
+        [ngClass]="{'animate fade-in': enableNodeEdgeAnimation}"
+        [attr.id]="getId(edge)"
+        [attr.role]="editable? 'button': ''"
+        [attr.tabindex]="editable? '0' : ''"
+        [attr.aria-label]="editable? 'Select edge' : ''"
+        (keypress)="onNodeEdgeKeyPress(edge, $event)"
+        (click)="onNodeEdgeClick(edge, $event)"
+        (mouseenter)="setHovered(edge)"
+        (mouseleave)="setHovered(undefined)"
+        (focus)="onFocus(edge)"
+        (blur)="onBlur()">
+      <ng-template
+          [ngTemplateOutlet]="edgeTemplate || defaultEdgeTemplate"
+          [ngTemplateOutletContext]="{
+              $implicit: edge,
+              focused: isFocused(edge),
+              selected: isSelected(edge),
+              selectedMousePoint: getSelectedMousePoint(edge),
+              highlighting: isHighlighting(),
+              highlighted: isHighlighted(edge),
+              predecessor: isPredecessor(edge),
+              successor: isSuccessor(edge)
+            }">
+      </ng-template>
+    </g>
+
+    <!-- Objects only shown when dragging-->
+    <ng-container *ngIf="dragging">
+      <g #newEdge *ngIf="dragEdge as edge" class="drag-edge">
+        <ng-template
+            [ngTemplateOutlet]="dragEdgeTemplate || defaultEdgeTemplate"
+            [ngTemplateOutletContext]="{$implicit: edge}">
+        </ng-template>
+      </g>
+      <ng-container *ngIf="dragNode as node">
+        <g #newNode class="drag-node"
+            [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
+            <foreignObject
+                class="foreign-object"
+                [attr.width]="node.width"
+                [attr.height]="node.height"
+                [attr.x]="-node.width/2"
+                [attr.y]="-node.height/2">
+            <xhtml:div class="node-html-container">
+              <ng-template
+                  [ngTemplateOutlet]="dragNodeTemplate || defaultNodeTemplate"
+                  [ngTemplateOutletContext]="{$implicit: node}">
+              </ng-template>
+            </xhtml:div>
+          </foreignObject>
+        </g>
+      </ng-container>
+    </ng-container>
+
+    <!-- Nodes-->
+    <g *ngFor="let node of graph.nodes; trackBy: trackByFn"
+        draggable="false"
+        [attr.id]="getId(node)"
+        [attr.class]="enableNodeEdgeAnimation? 'node animate fade-in ': 'node ' + node.cssClass"
+        [attr.role]="editable? 'button': ''"
+        [attr.tabindex]="editable? '0' : ''"
+        [attr.aria-label]="editable? 'Select node' : ''"
+        [attr.transform]="'translate(' + node.x + ',' + node.y + ')'"
+        (mousedown)="nodeMouseDown($event, node)"
+        (mouseup)="nodeMouseUp($event, node)"
+        (mouseenter)="setHovered(node)"
+        (mouseleave)="setHovered(undefined)"
+        (keypress)="onNodeEdgeKeyPress(node, $event)"
+        (click)="onNodeEdgeClick(node, $event)"
+        (focus)="onFocus(node)"
+        (blur)="onBlur()">
+
+      <foreignObject
+          class="foreign-object"
+          [attr.width]="node.width"
+          [attr.height]="node.height"
+          [attr.x]="-node.width/2"
+          [attr.y]="-node.height/2">
+
+        <xhtml:div class="node-html-container">
+          <ng-template
+              [ngTemplateOutlet]="nodeTemplate || defaultNodeTemplate"
+              [ngTemplateOutletContext]="{
+                $implicit: node,
+                focused: isFocused(node),
+                selected: isSelected(node),
+                highlighting: isHighlighting(),
+                highlighted: isHighlighted(node),
+                predecessor: isPredecessor(node),
+                successor: isSuccessor(node)
+              }">
+          </ng-template>
+        </xhtml:div>
+
+      </foreignObject>
+    </g>
+  </g>
+</svg>
+
+<section class="graph-controls" *ngIf="showZoomControls">
+  <button mat-stroked-button
+      class="zoom-reset-btn"
+      (click)="resetCamera()"
+      matTooltip="Center graph"
+      aria-label="Center graph">
+    <mat-icon>center_focus_strong</mat-icon>
+  </button>
+
+  <div class="zoom-btn-group">
+    <button mat-stroked-button
+        class="zoom-in-btn"
+        (click)="zoomIn()"
+        matTooltip="Zoom in"
+        aria-label="Zoom in">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <button mat-stroked-button
+        class="zoom-out-btn"
+        (click)="zoomOut()"
+        matTooltip="Zoom out"
+        aria-label="Zoom out">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </div>
+</section>

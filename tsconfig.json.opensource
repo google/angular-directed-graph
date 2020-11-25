@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "target": "es5",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "strict": false,
+    "baseUrl": "./"
+  },
+  "exclude": [
+    "bazel-*"
+  ]
+}
