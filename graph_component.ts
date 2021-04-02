@@ -17,7 +17,7 @@
 
 import {DOCUMENT} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
-import {GraphLabel, graphlib, layout} from 'dagre';
+import {GraphLabel, graphlib, layout} from 'dagre';  // from //third_party/javascript/typings/dagre
 import {fromEvent, Subscription} from 'rxjs';
 
 import {GraphCamera} from './graph_camera';
