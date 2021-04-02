@@ -88,7 +88,7 @@
         (mouseleave)="setHovered(undefined)"
         (focus)="onFocus(edge)"
         (blur)="onBlur()">
-      <ng-template
+      <ng-container
           [ngTemplateOutlet]="edgeTemplate || defaultEdgeTemplate"
           [ngTemplateOutletContext]="{
               $implicit: edge,
@@ -100,16 +100,16 @@
               predecessor: isPredecessor(edge),
               successor: isSuccessor(edge)
             }">
-      </ng-template>
+      </ng-container>
     </g>
 
     <!-- Objects only shown when dragging-->
     <ng-container *ngIf="dragging">
       <g #newEdge *ngIf="dragEdge as edge" class="drag-edge">
-        <ng-template
+        <ng-container
             [ngTemplateOutlet]="dragEdgeTemplate || defaultEdgeTemplate"
             [ngTemplateOutletContext]="{$implicit: edge}">
-        </ng-template>
+        </ng-container>
       </g>
       <ng-container *ngIf="dragNode as node">
         <g #newNode class="drag-node"
@@ -121,10 +121,10 @@
                 [attr.x]="-node.width/2"
                 [attr.y]="-node.height/2">
             <xhtml:div class="node-html-container">
-              <ng-template
+              <ng-container
                   [ngTemplateOutlet]="dragNodeTemplate || defaultNodeTemplate"
                   [ngTemplateOutletContext]="{$implicit: node}">
-              </ng-template>
+              </ng-container>
             </xhtml:div>
           </foreignObject>
         </g>
@@ -157,7 +157,7 @@
           [attr.y]="-node.height/2">
 
         <xhtml:div class="node-html-container">
-          <ng-template
+          <ng-container
               [ngTemplateOutlet]="nodeTemplate || defaultNodeTemplate"
               [ngTemplateOutletContext]="{
                 $implicit: node,
@@ -168,7 +168,7 @@
                 predecessor: isPredecessor(node),
                 successor: isSuccessor(node)
               }">
-          </ng-template>
+          </ng-container>
         </xhtml:div>
 
       </foreignObject>
