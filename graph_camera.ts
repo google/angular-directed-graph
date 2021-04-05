@@ -22,6 +22,7 @@ import {debounceTime} from 'rxjs/operators';
 import {Node, Point, Rect} from './model';
 import {WindowRef} from './window/window_module';
 
+// taze: SvgPanZoom.Instance from //third_party/javascript/typings/svg_pan_zoom
 
 /**
  * When the graph is too big to fit within the camera frame, we automatically
