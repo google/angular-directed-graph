@@ -17,7 +17,6 @@ $default-edge-color: #979797;
 $default-node-border: #979797;
 $default-node-background: #fff;
 $default-node-radius: 4px;
-$button-bg: #fff;
 
 :host {
   align-items: stretch;
@@ -141,7 +140,6 @@ g:focus {
   position: absolute;
 
   button {
-    background: $button-bg;
     line-height: 36px;
     margin: 0;
     min-width: 36px;

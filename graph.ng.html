@@ -178,6 +178,7 @@
 
 <section class="graph-controls" *ngIf="showZoomControls">
   <button mat-stroked-button
+      mat-flat-button
       class="zoom-reset-btn"
       (click)="resetCamera()"
       matTooltip="Center graph"
@@ -187,6 +188,7 @@
 
   <div class="zoom-btn-group">
     <button mat-stroked-button
+        mat-flat-button
         class="zoom-in-btn"
         (click)="zoomIn()"
         matTooltip="Zoom in"
@@ -195,6 +197,7 @@
     </button>
 
     <button mat-stroked-button
+        mat-flat-button
         class="zoom-out-btn"
         (click)="zoomOut()"
         matTooltip="Zoom out"
