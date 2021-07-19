@@ -25,6 +25,7 @@
 export interface Graph<NodeData = undefined, EdgeData = undefined> {
   nodes: Array<Node<NodeData>>;
   edges: Array<Edge<NodeData, EdgeData>>;
+  groups?: Array<Node<NodeData>>;
 }
 
 /**
@@ -45,6 +46,9 @@ export interface Node<NodeData = undefined> {
 
   /** The height of the node (used for layout calculations) */
   height: number;
+
+  /** The list of children node id. */
+  children?: string[];
 
   /** Custom data to associate with this node. */
   data?: NodeData;
