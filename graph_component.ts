@@ -375,7 +375,8 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.changeDetectorRef.markForCheck();
     }, 0);
 
-    if (this.graphEl) {
+    if (this.graphEl && this.graphEl.nativeElement &&
+        this.graphEl.nativeElement.createSVGPoint) {
       this.svgCursorPoint = this.graphEl.nativeElement.createSVGPoint();
     }
   }
