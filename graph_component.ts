@@ -181,6 +181,9 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
   /** An (optional) custom svg template used to render edges. */
   @ContentChild('edge', {static: false}) edgeTemplate?: TemplateRef<{}>;
 
+  /** An (optional) custom svg template used to render groups. */
+  @ContentChild('group', {static: false}) groupTemplate?: TemplateRef<{}>;
+
   /**
    * An (optional) custom html template used to render a temporary node image
    * shown at the cursor when dragging to add new nodes and edges to the graph.
@@ -546,7 +549,8 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
    * Re-lays out the graph when it is updated.
    */
   private updateGraphLayout() {
-    const g = new graphlib.Graph();
+    const compound = (this.graph.groups || []).length > 0;
+    const g = new graphlib.Graph({compound});
     this.graphLib = g;
 
     g.setGraph(convertToDagreOptions(this.layout));
@@ -557,6 +561,18 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     for (const edge of this.graph.edges) {
       g.setEdge(edge.src.id, edge.dest.id, edge);
+    }
+
+    // Set group nodes
+    for (const group of (this.graph.groups || [])) {
+      g.setNode(group.id, group);
+    }
+
+    // Set parent of group nodes's children
+    for (const group of (this.graph.groups || [])) {
+      for (const nodeId of (group.children || [])) {
+        g.setParent(nodeId, group.id);
+      }
     }
 
     layout(g);
@@ -1071,6 +1087,7 @@ function shallowCopy(g: Graph): Graph {
   return {
     nodes: [...g.nodes],
     edges: [...g.edges],
+    groups: g.groups ? [...g.groups] : undefined,
   };
 }
 

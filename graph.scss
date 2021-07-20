@@ -17,6 +17,8 @@ $default-edge-color: #979797;
 $default-node-border: #979797;
 $default-node-background: #fff;
 $default-node-radius: 4px;
+$default-group-border: #979797;
+$default-group-background: #fff;
 
 :host {
   align-items: stretch;
@@ -108,6 +110,12 @@ g:focus {
   &.selected {
     border-width: 4px;
   }
+}
+
+.default-group {
+  fill: $default-group-background;
+  stroke: $default-group-border;
+  stroke-width: 2px;
 }
 
 .animate {

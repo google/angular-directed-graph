@@ -63,6 +63,16 @@
   </div>
 </ng-template>
 
+<!-- Default Group (if custom one not provided) -->
+<ng-template #defaultGroupTemplate let-group>
+  <svg:rect class="default-group animate"
+        [attr.x]="-group.width/2"
+        [attr.y]="-group.height/2"
+        [attr.width]="group.width"
+        [attr.height]="group.height">
+  </svg:rect>
+</ng-template>
+
 <svg #graphEl class="graph"
     [class.loading]="loading"
     [class.panning]="panning"
@@ -73,6 +83,18 @@
 
   <!-- Root group (required by pan-zoom library) -->
   <g>
+
+    <!-- Groups -->
+    <g *ngFor="let group of (graph.groups || []); trackBy: trackByFn"
+       class="group"
+       [ngClass]="{'animate fade-in': enableNodeEdgeAnimation}"
+       [attr.id]="getId(group)"
+       [attr.transform]="'translate(' + group.x + ',' + group.y + ')'">
+      <ng-container
+          [ngTemplateOutlet]="groupTemplate || defaultGroupTemplate"
+          [ngTemplateOutletContext]="{$implicit: group}">
+      </ng-container>
+    </g>
 
     <!-- Edges -->
     <g *ngFor="let edge of graph.edges; trackBy: trackByFn"
