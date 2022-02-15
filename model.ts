@@ -22,7 +22,7 @@
 /**
  * Represents a graph composed of nodes and edges.
  */
-export interface Graph<NodeData = undefined, EdgeData = undefined> {
+export interface Graph<NodeData = unknown, EdgeData = unknown> {
   nodes: Array<Node<NodeData>>;
   edges: Array<Edge<NodeData, EdgeData>>;
   groups?: Array<Node<NodeData>>;
@@ -31,7 +31,7 @@ export interface Graph<NodeData = undefined, EdgeData = undefined> {
 /**
  * Describes a single node in the graph.
  */
-export interface Node<NodeData = undefined> {
+export interface Node<NodeData = unknown> {
   /** A unique id for the node within the graph. */
   id: string;
 
@@ -57,7 +57,7 @@ export interface Node<NodeData = undefined> {
 /**
  * Describes a connection between two nodes in the graph.
  */
-export interface Edge<NodeData = undefined, EdgeData = undefined> {
+export interface Edge<NodeData = unknown, EdgeData = unknown> {
   /** The source node. */
   src: Node<NodeData>;
 
@@ -74,7 +74,7 @@ export interface Edge<NodeData = undefined, EdgeData = undefined> {
 /**
  * An event emitted whenever a single create occurs to the graph.
  */
-export interface GraphCreateEvent<NodeData = undefined, EdgeData = undefined> {
+export interface GraphCreateEvent<NodeData = unknown, EdgeData = unknown> {
   /** The new node */
   node?: Node<NodeData>;
 
@@ -85,7 +85,7 @@ export interface GraphCreateEvent<NodeData = undefined, EdgeData = undefined> {
 /**
  * An event emitted whenever a single deletion occurs to the graph.
  */
-export interface GraphDeleteEvent<NodeData = undefined, EdgeData = undefined> {
+export interface GraphDeleteEvent<NodeData = unknown, EdgeData = unknown> {
   /** The deleted node */
   node?: Node<NodeData>;
 
@@ -96,7 +96,7 @@ export interface GraphDeleteEvent<NodeData = undefined, EdgeData = undefined> {
 /**
  * An event emitted whenever an element is selected from the graph.
  */
-export interface GraphSelectEvent<NodeData = undefined, EdgeData = undefined> {
+export interface GraphSelectEvent<NodeData = unknown, EdgeData = unknown> {
   /** The selected node */
   node?: Node<NodeData>;
 
