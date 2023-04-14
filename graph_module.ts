@@ -17,9 +17,9 @@
 
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {MatLegacyButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatLegacyTooltipModule} from '@angular/material/tooltip';
+import {MatLegacyButtonModule} from '@angular/material/legacy-button';
+import {MatLegacyTooltipModule} from '@angular/material/legacy-tooltip';
 
 import {EdgePipe} from './edge_pipe';
 import {GraphComponent} from './graph_component';
