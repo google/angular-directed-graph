@@ -21,7 +21,7 @@ import {GraphLabel, graphlib, layout} from 'dagre';  // from //third_party/javas
 import {fromEvent, Subscription} from 'rxjs';
 
 import {GraphCamera} from './graph_camera';
-import {Edge, Graph, GraphCreateEvent, GraphDeleteEvent, GraphSelectEvent, LayoutOptions, Node, Point, RankAlignment, RankDirection, RankerAlgorithim} from './model';
+import {Edge, type Graph, GraphCreateEvent, GraphDeleteEvent, GraphSelectEvent, type LayoutOptions, Node, Point, RankAlignment, RankDirection, RankerAlgorithim} from './model';
 import {curvedPath} from './paths';
 import {WindowRef} from './window/window_module';
 
