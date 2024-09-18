@@ -25,6 +25,7 @@ import {pointsToLines} from './paths';
  * string describing how to connect them with a line.
  */
 @Pipe({
+  standalone: false,
   name: 'edgePath',
   pure: true,
 })

@@ -165,6 +165,7 @@ export enum CameraResetBehaviorEnum {
  * templates described above.
  */
 @Component({
+  standalone: false,
   preserveWhitespaces: true,
   selector: 'directed-graph',
   templateUrl: './graph.ng.html',
