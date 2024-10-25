@@ -137,6 +137,11 @@ export class GraphCamera {
    */
   onPan = new EventEmitter<Point>();
 
+  /**
+   * Emits an event whenever the camera is zoomed.
+   */
+  onZoom = new EventEmitter<number>();
+
   constructor(options: CameraOptions) {
     this.svgEl = options.svgEl;
     const viewportEl = this.svgEl.querySelector('g');
@@ -176,6 +181,9 @@ export class GraphCamera {
       }),
       onPan: ((point) => {
         this.onPan.next(point);
+      }),
+      onZoom: ((newScale) => {
+        this.onZoom.next(newScale);
       }),
     });
 

@@ -198,8 +198,8 @@
   </g>
 </svg>
 
-<section class="graph-controls" *ngIf="showZoomControls">
-  <button mat-stroked-button
+<section class="graph-controls" *ngIf="showZoomControls || showCenterGraphButton">
+  <button mat-stroked-button *ngIf="showCenterGraphButton"
       mat-flat-button
       class="zoom-reset-btn"
       (click)="resetCamera()"
@@ -208,7 +208,7 @@
     <mat-icon>center_focus_strong</mat-icon>
   </button>
 
-  <div class="zoom-btn-group">
+  <div class="zoom-btn-group" *ngIf="showZoomControls">
     <button mat-stroked-button
         mat-flat-button
         class="zoom-in-btn"

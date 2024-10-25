@@ -105,6 +105,14 @@ export interface GraphSelectEvent<NodeData = unknown, EdgeData = unknown> {
 }
 
 /**
+ * An event emitted whenever the graph is zoomed.
+ */
+export interface GraphZoomEvent {
+  /** The new scale of the graph. */
+  newScale: number;
+}
+
+/**
  * An x/y position in the graph.
  */
 export interface Point {
