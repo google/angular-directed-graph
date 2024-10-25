@@ -21,7 +21,7 @@ import {GraphLabel, graphlib, layout} from 'dagre';  // from //third_party/javas
 import {fromEvent, Subscription} from 'rxjs';
 
 import {GraphCamera} from './graph_camera';
-import {Edge, type Graph, GraphCreateEvent, GraphDeleteEvent, GraphSelectEvent, type LayoutOptions, Node, Point, RankAlignment, RankDirection, RankerAlgorithim} from './model';
+import {Edge, type Graph, GraphCreateEvent, GraphDeleteEvent, GraphSelectEvent, GraphZoomEvent, type LayoutOptions, Node, Point, RankAlignment, RankDirection, RankerAlgorithim} from './model';
 import {curvedPath} from './paths';
 import {WindowRef} from './window/window_module';
 
@@ -295,6 +295,9 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
   /** Enables zoom in/out/reset controls */
   @Input() showZoomControls = false;
 
+  /** Enables zoom reset control */
+  @Input() showCenterGraphButton = false;
+
   @Input() enableMouseWheelZoom = true;
 
   @Input() cameraResetBehaviorOnGraphSet = CameraResetBehaviorEnum.NONE;
@@ -354,6 +357,11 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
    * Emits when a graph object has been selected.
    */
   @Output() select = new EventEmitter<GraphSelectEvent>();
+
+  /**
+   * Emits when a graph object has been zoomed.
+   */
+  @Output() zoom = new EventEmitter<GraphZoomEvent>();
 
   constructor(
       private readonly changeDetectorRef: ChangeDetectorRef,
@@ -610,6 +618,10 @@ export class GraphComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     this.camera.onPan.subscribe(() => {
       this.panOccurred = true;
+    });
+
+    this.camera.onZoom.subscribe((newScale: number) => {
+      this.zoom.emit({newScale});
     });
   }
 
