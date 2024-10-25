@@ -105,6 +105,13 @@ export interface GraphSelectEvent<NodeData = unknown, EdgeData = unknown> {
 }
 
 /**
+ *
+ */
+export interface GraphZoomEvent {
+  newScale: number;
+}
+
+/**
  * An x/y position in the graph.
  */
 export interface Point {
