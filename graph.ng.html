@@ -199,7 +199,7 @@
 </svg>
 
 <section class="graph-controls" *ngIf="showZoomControls">
-  <button mat-stroked-button
+  <button mat-stroked-button *ngIf="showCenterGraphButton"
       mat-flat-button
       class="zoom-reset-btn"
       (click)="resetCamera()"
